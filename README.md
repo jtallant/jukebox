@@ -11,4 +11,4 @@ To run project:
 * node app.js (use nodemon for auto restart server on code change [js files ony])
 * visit localhost:3000
 
-![albums directory structure](img/albums)
+![albums directory structure](img/albums.png)
