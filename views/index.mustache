@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jukebox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+    <h1>Tool Jukebox</h1>
+
+    <div id="jukebox" class="cf">
+        <div id="controls">
+            <div class="field-inline cf">
+                <label for="volume"><i class="fa fa-volume-off"></i></label>
+                <input id="volume" type="range" min="0" max="1" value="1" step="0.1">
+            </div> <!-- .field-inline -->
+
+            <div class="field-inline cf">
+                <label for="seek"><i class="fa fa-clock-o"></i></label>
+                <input id="seek" type="range" value="0">
+            </div> <!-- .field-inline -->
+
+            <div id="buttons" class="cf">
+                <div id="btnBack"><i class="fa fa-step-backward"></i></div>
+                <div id="btnForward"><i class="fa fa-step-forward"></i></div>
+                <div id="playPause" class="playing">
+                    <i class="fa fa-play"></i>
+                    <i class="fa fa-pause"></i>
+                </div> <!-- #playPause -->
+            </div> <!-- #buttons -->
+        </div> <!-- #controls -->
+        <div id="songs">
+            {{#songs}}
+                <div class="song" data-src="{{ filePath }}">
+                    <div class="inner">
+                        <img src="{{ cover }}" />
+                        <div class="btn-play"><i class="fa fa-play"></i></div>
+                        <div class="btn-pause"><i class="fa fa-pause"></i></div>
+                    </div>
+                    <span>{{ title }}</span>
+                </div>
+            {{/songs}}
+        </div> <!-- #songs -->
+    </div> <!-- #jukeBox -->
+    <script src="js/jukebox.js"></script>
+    <script src="js/song.js"></script>
+    <script>
+        var jukebox = new Jukebox();
+        jukebox.setVolumeControl(document.getElementById('volume'));
+        jukebox.setSeekControl(document.getElementById('seek'));
+        jukebox.setPlayPauseBtn(document.getElementById('playPause'));
+        jukebox.setNextBtn(document.getElementById('btnForward'));
+        jukebox.setBackBtn(document.getElementById('btnBack'));
+
+        Array.prototype.slice.call(document.getElementsByClassName('song')).forEach(function(el, index) {
+            jukebox.addSong(new Song(el));
+
+            el.addEventListener('click', function(event) {
+                jukebox.playSongNumber(index);
+            });
+        });
+
+        jukebox.start();
+
+    </script>
+</body>
+</html>
